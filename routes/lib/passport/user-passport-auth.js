@@ -20,6 +20,8 @@ const userJWTLoginStrategy = new JwtStrategy(jwtOpts, async (payload, done) => {
       } else {
         return done(null, user);
       }
+    } else { 
+      return done(null, false)
     }
   } catch (e) {
     return done(e, false);

@@ -20,6 +20,8 @@ const adminJWTLoginStrategy = new JwtStrategy(jwtOpts, async (payload, done) => 
             } else {
                 return done(null, admin)
             }
+        } else {
+            return done(null, false)
         }
     } catch (e) {
         return done(e, false)

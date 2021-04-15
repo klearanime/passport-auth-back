@@ -41,6 +41,7 @@ const login = async (req, res) => {
       throw { message: "Please check your email and password!" };
     }
 
+    // payload 
     let jwtToken = jwt.sign(
       {
         email: foundUser.email,

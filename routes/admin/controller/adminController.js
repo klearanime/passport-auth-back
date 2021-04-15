@@ -1,7 +1,8 @@
 const Admin = require("../model/Admin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../../users/model/User")
+const User = require("../../users/model/User");
+const { findOneAndDelete } = require("../../users/model/User");
 
 const signUp = async (req, res) => {
     try {
@@ -88,24 +89,49 @@ const getAllUsersProfile = async (req, res) => {
 
 const updateUserProfile = async (req, res) => {
     try {
-
+        let updatedUser = await User.findOneAndUpdate({email: req.body.email },
+            req.body,
+            { new: true }
+        )
+            res.json({
+                message: "updated user",
+                user: updatedUser,
+            })
     } catch (e) {
+        res.status(500).json({ message: e.message })
 
     }
 }
 
 const deleteUser = async (req, res) => {
     try {
-
+        let deleteUser = await findOneAndDelete({
+            email: req.body.email,
+        })
+            res.json({
+                message: "deleted user",
+                user: deleteUser,
+            })
     } catch (e) {
+        res.status(500).json({ message: e.message })
 
     }
 }
 
 const adminCreateUser = async (req, res) => {
     try {
-
+        let createdUser = new User({
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password,
+        })
+        let savedUser = await createdUser.save()
+            res.json({
+                message: "created user",
+                user: savedUser,
+            })
     } catch (e) {
+        res.status(500).json({ message: e.message })
 
     }
 }
